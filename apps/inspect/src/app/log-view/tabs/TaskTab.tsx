@@ -13,7 +13,7 @@ import { formatNumber, ghCommitUrl, toTitleCase } from "@tsmono/util";
 
 import { getApi } from "../../../app_config";
 import { kLogViewTaskTabId } from "../../../constants";
-import { formatDateTime, formatDuration } from "../../../utils/format";
+import { formatEvalTiming } from "../../../utils/evalTiming";
 import { TagsField } from "../title-view/TagsField";
 
 import { ConfigCard } from "./ConfigCard";
@@ -115,10 +115,7 @@ export const TaskTab: FC<TaskTabProps> = ({
     }
   }
 
-  const totalDuration = formatDuration(
-    new Date(evalStats?.started_at || 0),
-    new Date(evalStats?.completed_at || 0)
-  );
+  const timing = formatEvalTiming(evalStats);
 
   const task_args = evalSpec?.task_args || {};
 
@@ -146,13 +143,9 @@ export const TaskTab: FC<TaskTabProps> = ({
 
               <MetaDataGrid
                 entries={{
-                  ["Start"]: formatDateTime(
-                    new Date(evalStats?.started_at || 0)
-                  ),
-                  ["End"]: formatDateTime(
-                    new Date(evalStats?.completed_at || 0)
-                  ),
-                  ["Duration"]: totalDuration,
+                  ["Start"]: timing.start,
+                  ["End"]: timing.end,
+                  ["Duration"]: timing.duration,
                 }}
                 options={{ copyButton: true }}
               />

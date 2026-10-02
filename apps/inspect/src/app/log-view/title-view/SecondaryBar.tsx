@@ -27,7 +27,8 @@ import {
   useEvalDescriptor,
   useSelectedSampleInvalidation,
 } from "../../../state/hooks";
-import { formatDateTime, formatDuration } from "../../../utils/format";
+import { formatEvalTiming } from "../../../utils/evalTiming";
+import { formatDateTime } from "../../../utils/format";
 import { useTimelineNavigation } from "../useTimelineNavigation";
 
 import styles from "./SecondaryBar.module.css";
@@ -144,10 +145,7 @@ export const SecondaryBar: FC<SecondaryBarProps> = ({
   }
 
   if (evalStats) {
-    const totalDuration = formatDuration(
-      new Date(evalStats.started_at),
-      new Date(evalStats.completed_at)
-    );
+    const totalDuration = formatEvalTiming(evalStats).duration;
     values.push({
       size: "minmax(12%, auto)",
       value: (
